@@ -36,15 +36,16 @@ Do not close #4471 when the parser fix ships. Two of its problems need their own
    the hint.
 3. **`one-day`.** The date moves by one day, not by months. "Client in Lisbon got Tuesday.
    Client in Toronto got Monday." "Every booking in June is one day off." This looks like a time
-   zone or daylight saving bug. The desk noted these reports, but the old table counts them
-   under `parser`.
+   zone or daylight saving bug. The desk noted these reports. They stay filed and counted under
+   `parser`, but they need their own fix.
 
 ## What the old table shows
 
 <CauseTable ticket={4471} />
 
 The old table already splits `hint` away from `parser`, and it says that `hint` has "no ticket
-of its own". It counts the one-day moves under `parser` and puts them in a footnote.
+of its own". It counts the one-day moves under `parser` and puts them in a footnote. The
+footnote is a problem of its own.
 
 ## Why this happened
 
