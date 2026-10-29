@@ -1,0 +1,65 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: Vitalie Andries
+status: open
+reviewed: 2026-10-29
+signature: Vitalie Andries
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+
+  const repo = 'https://github.com/vandriesh/support-kb-4471';
+</script>
+
+The [#4471 page](/kb/incidents/4471) says "one issue, one fix queued". Its own table does not agree.
+We read the reports again. #4471 holds three different problems. One fix does not close all of them.
+
+<Callout kind="warn">
+Do not close #4471 when the parser fix ships. Two of its problems need their own fix.
+</Callout>
+
+## The problems
+
+<ProblemTable ticket={4471} {repo} issues={{ parser: 1, hint: 2, 'one-day': 3 }} />
+
+1. **`parser`.** The shared parser reads every date month first. Our tenants write the day
+   first, so the day and the month change places: "7 April" becomes "4 July". This is the bug
+   that #4471 describes. The queued fix is for this problem.
+2. **`hint`.** The booking-v3 form prints `MM/DD/YYYY` under its date field. People type what
+   the hint tells them, month first. The form then reads the date the tenant's way, day first.
+   Only form reports from tenants on booking-v3 have this problem. A parser fix does not change
+   the hint.
+3. **`one-day`.** The date moves by one day, not by months. "Client in Lisbon got Tuesday.
+   Client in Toronto got Monday." "Every booking in June is one day off." This looks like a time
+   zone or daylight saving bug. The desk noted these reports, but the old table counts them
+   under `parser`.
+
+## What the old table shows
+
+<CauseTable ticket={4471} />
+
+The old table already splits `hint` away from `parser`, and it says that `hint` has "no ticket
+of its own". It counts the one-day moves under `parser` and puts them in a footnote.
+
+## Why this happened
+
+- [Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges reports by subject line. The
+  subjects of all three problems are the same: "Wrong day on the invite", "Date is wrong".
+  The subject tells you the symptom. The tenant, the form and the body tell you the cause.
+- Intake tags (`meta.intakeTag`) are a guess from the reporter's browser. They disagree with
+  the cause in both directions. Do not use them to split a ticket.
+- The ticket export has overlapping pages, so some reports come twice. Count unique ids only.
+
+## What the desk does now
+
+1. Keep #4471 for `parser`.
+2. Track `hint` and `one-day` in their own tickets.
+3. Before you merge a date report, check its tenant, its channel and its body.
+4. If the dates move by one day, file the report under `one-day`, not under #4471.
+
+<RenderStamp {signature} />
