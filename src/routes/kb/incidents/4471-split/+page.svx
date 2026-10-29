@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · three problems, not one'
 owner: Vitalie Andries
-status: open
+status: closed
 reviewed: 2026-10-29
 signature: Vitalie Andries
 ---
@@ -19,8 +19,9 @@ signature: Vitalie Andries
 The [#4471 page](/kb/incidents/4471) says "one issue, one fix queued". Its own table does not agree.
 We read the reports again. #4471 holds three different problems. One fix does not close all of them.
 
-<Callout kind="warn">
-Do not close #4471 when the parser fix ships. Two of its problems need their own fix.
+<Callout>
+Closed. The work on #4471 is done. Each of its three problems had its own ticket, and this
+commit closes all three.
 </Callout>
 
 ## The problems
