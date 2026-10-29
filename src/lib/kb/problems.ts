@@ -17,11 +17,11 @@ export type ProblemRow = {
 
 export function problemRows(
   reports: Report[],
-  tickets: readonly number[],
+  ticket: number,
   tenantOf: (r: Report) => Tenant | undefined,
   oneDayMove: readonly string[],
 ): ProblemRow[] {
-  const merged = uniqueById(reports).filter((r) => r.mergedInto !== null && tickets.includes(r.mergedInto));
+  const merged = uniqueById(reports).filter((r) => r.mergedInto === ticket);
   const rows: ProblemRow[] = [];
   for (const g of groupByCause(merged, tenantOf)) {
     rows.push({ problem: g.cause, reports: g.reports.length, tenants: g.tenants, firstSeen: g.firstSeen, lastSeen: g.lastSeen });

@@ -40,18 +40,13 @@ commit closes all three.
    zone or daylight saving bug. The desk noted these reports. They stay filed and counted under
    `parser`, but they need their own fix.
 
-## Where the reports are now
+## What the old table shows
 
-The desk's table, for each new ticket. The reports are merged into issue #1 and issue #2 now, so
-#4471 has none left. The one-day reports stay filed under `parser`, in issue #1.
+<CauseTable ticket={4471} />
 
-<CauseTable ticket={1} />
-
-<CauseTable ticket={2} />
-
-Before the split, the old table already showed `hint` apart from `parser`, with "no ticket of
-its own". It counted the one-day moves under `parser`, in a footnote. The footnote is a problem
-of its own.
+The old table already splits `hint` away from `parser`, and it says that `hint` has "no ticket
+of its own". It counts the one-day moves under `parser` and puts them in a footnote. The
+footnote is a problem of its own.
 
 ## Why this happened
 
