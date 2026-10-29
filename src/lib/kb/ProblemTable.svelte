@@ -5,19 +5,21 @@
   import { tenantOf } from '#lib/kb/locales';
   import { problemRows, type Problem } from '#lib/kb/problems';
 
-  // `issues` maps a problem to the number of the GitHub issue in `repo` that now tracks it.
+  // `ticket` is the old desk ticket. `issues` maps a problem to the GitHub issue in `repo` that
+  // its reports are merged into now.
   let {
     ticket,
     repo,
     issues = {},
   }: { ticket: number; repo: string; issues?: Partial<Record<Problem, number>> } = $props();
 
-  const unique = $derived(uniqueById(reports as Report[]).filter((r) => r.mergedInto === ticket).length);
-  const rows = $derived(problemRows(reports as Report[], ticket, tenantOf, notes.oneDayMove));
+  const tickets = $derived(Object.values(issues));
+  const unique = $derived(uniqueById(reports as Report[]).filter((r) => r.mergedInto !== null && tickets.includes(r.mergedInto)).length);
+  const rows = $derived(problemRows(reports as Report[], tickets, tenantOf, notes.oneDayMove));
 </script>
 
 <p class="sum">
-  <strong>{unique}</strong> reports merged into #{ticket} · <strong>{rows.length}</strong> problems
+  <strong>{unique}</strong> reports from #{ticket} · <strong>{rows.length}</strong> problems
 </p>
 
 <table>
